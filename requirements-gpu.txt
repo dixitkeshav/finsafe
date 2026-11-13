@@ -1,0 +1,11 @@
+# Linux NVIDIA runtime only. Install PyTorch for the host CUDA runtime first.
+# Exact top-level toolkit versions; record the resolved environment per run.
+-e .
+aligntune==0.1.35
+safetune==0.1.18
+transformers>=5.15,<6
+datasets>=3,<6
+peft>=0.18,<1
+accelerate>=1.6,<2
+trl==1.7.1
+bitsandbytes>=0.45.5,!=0.46.0,!=0.48.0

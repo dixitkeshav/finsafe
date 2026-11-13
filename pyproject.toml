@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "finsafe"
+version = "0.1.0"
+description = "Measure safety drift and finance utility in adapted Tiny Aya models"
+requires-python = ">=3.12,<3.13"
+dependencies = ["auditkit==1.1.11", "curatorkit==0.1.15", "huggingface-hub>=0.34,<2", "matplotlib>=3.9,<4"]
+
+[project.scripts]
+finsafe = "finsafe.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
