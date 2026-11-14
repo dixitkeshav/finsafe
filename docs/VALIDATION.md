@@ -115,3 +115,9 @@ training, and uses 768 for SFT safety validation too. Old 256-token results rema
 separate. This updated notebook compiles but its 100-step GPU path has not run.
 Review-packet regeneration preserves matching annotations and rejects changed
 responses; fifteen software tests pass.
+
+The rebuilt curated training file is byte-for-byte identical to the original
+Stage-02 downloaded curation: 954 rows with SHA-256
+207956f3c3e82a9a2ad55a3fef292be55cd64f856f13635218f85ba571dff75d.
+The observed smoke-loss difference is not a dataset-content change; its exact
+runtime cause has not been established. Do not present it as a model improvement.

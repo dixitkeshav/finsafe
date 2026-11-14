@@ -1,32 +1,43 @@
 # Current Kaggle stage
 
-Use the existing private notebook: https://www.kaggle.com/code/keshavdixit11/lexsilabs/edit
-Do not reset the running session until its recovery files are downloaded.
+Completed, retained recovery run:
+https://www.kaggle.com/code/keshavdixit11/lexsilabs?scriptVersionId=369625059
 
-## Completed
+Version 4 was cancelled with explicit user approval after remaining queued with
+zero output. The editor's Save & Run All created Version 5, which completed in
+44m 58s on T4 x2. The final recovery ZIP was downloaded locally and CRC-verified:
+157 files, including prepared data, checkpoint-5, predictions and review packets.
 
-- Notebook 01: real TAT-QA preparation and HF access.
-- Notebook 02: matched Python 3.12 GPU environment, token filtering, CuratorKIT,
-  and 4-bit Tiny Aya model-load/generation smoke test on one T4.
-- Notebook 03: original 200-question finance baseline (7/200 correct), five-step
-  QLoRA smoke training (loss 2.1082), checkpoint file verification and adapter
-  generation. Stage-03 recovery ZIP passed its integrity check (211.6 MiB).
+## Observed results
 
-## Current workflow
+- Finance baseline: 7/200 (3.5%), matching the earlier aggregate result; 36%
+  malformed value/scale JSON; no finance responses hit the 64-token cap.
+- Recreated five-step smoke: finite loss 1.8306249380111694, full checkpoint files
+  verified. This is distinct from the earlier smoke run with loss 2.108152.
+- Safety pilot: 36 saved validation responses, 21 reaching the 256-token cap.
+  Safety rates remain unmeasured because labels are UNREVIEWED.
+- Budget diagnostic: five selected capped examples rerun with 768 tokens. Four
+  stopped naturally at 309–526 tokens; one still reached 768. Their original
+  answers were exact text prefixes of the longer answers. None emitted tokenizer
+  EOS 6; the four completed on generation EOS 3. No stop-rule change is justified
+  by these observations. The subset is not a safety-rate estimate.
 
-Notebook 04 freezes the safety pilot and collects 36 validation responses. It
-also diagnoses the saved finance responses: 36% malformed JSON, none at the known
-64-token cap. The safety review packet contains prompt, generated output, exact
-response hash, cap flag, UNREVIEWED label, reviewer and notes. Fill labels using
-STAGE04.md and PROTOCOL.md before reporting harmful-compliance/ASR/over-refusal.
-The pilot is small and AI-assisted; independent prompt review remains necessary.
+## Next notebook
 
-Notebook 05 is ready for a fresh 100-step finance run and matching validation
-responses. It has not yet executed. It uses a new output directory, full-state
-checkpoints every 10 steps and resumable generation. It does not evaluate final
-test data or produce safety rates before annotation.
+Use `notebooks/05_kaggle_finance_sft.ipynb`, with Version-5 retained output attached
+as notebook input. The bootstrap restores finsafe-stage04b-recovery.zip when
+needed and reinstalls missing GPU dependencies. Keep GPU, Internet and HF_TOKEN
+enabled. Submit through the editor's Save & Run All and verify Notebook format
+and actual logs; a saved version alone does not prove execution.
 
-Keep Internet, GPU and HF_TOKEN enabled. Tokens belong in Kaggle Secrets only.
-Every notebook logs cell timing and failures. Download the latest verified
-recovery ZIP before stopping the session; Quick Save alone is not proof that
-working-directory files are durable. See RECOVERY.md for restore behavior.
+Notebook 05 collects a NEW original-model safety baseline at 768 tokens before
+training. SFT safety evaluation also uses 768; finance remains at 64. It starts
+a fresh 100-step finance run with full-state checkpoints every 10 steps. Budget
+several GPU hours for all baseline/training/evaluation stages on the observed
+runtime. It has not executed yet; no SFT or repair efficacy is claimed.
+
+Review the NEW full-response packets using STAGE04.md and PROTOCOL.md; do not
+copy response labels across changed response hashes. The condition-hidden review
+tool can mix baseline/SFT packets after both are collected. Independent prompt
+review remains necessary for this small AI-assisted pilot. Final test prompts
+remain reserved. Save completed artifacts before ending an interactive session.

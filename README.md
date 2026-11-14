@@ -16,11 +16,12 @@ remain incomplete. See [validation notes](docs/VALIDATION.md).
 
 ## Start here
 
-**Current next step:** [Notebook 04](notebooks/04_kaggle_safety_baseline.ipynb)
-collects a frozen finance safety pilot baseline and exports review packets.
-[Notebook 05](notebooks/05_kaggle_finance_sft.ipynb) is prepared for a fresh
-100-step finance SFT with matching validation generation; it has not yet run.
-Use [the Kaggle action guide](docs/KAGGLE_NOW.md) for the current stage.
+**Current next step:** [Notebook 05](notebooks/05_kaggle_finance_sft.ipynb)
+now restores retained Version-5 output, reinstalls missing GPU dependencies,
+collects a NEW 768-token safety baseline, and runs fresh 100-step finance SFT
+with matched safety validation. It is prepared but has not run. The prior
+256-token safety baseline and five-example output-budget diagnostic completed;
+actual safety labels remain unreviewed. See [current Kaggle instructions](docs/KAGGLE_NOW.md).
 
 Real TAT-QA preparation and complete-chat token filtering accepted 2,500 train /
 200 validation / 200 test examples in the verified session; CuratorKIT retained
