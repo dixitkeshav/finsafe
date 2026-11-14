@@ -39,3 +39,12 @@ git push -u origin data/finance-benchmark
 Keep models, raw data and logs out of Git. Publish reviewed artifacts on HF.
 Commit only configurations, source, small examples and concise evidence summaries.
 Avoid changing the final test set after comparing model performance on it.
+
+## Hugging Face and runtime
+
+- Shared organization: https://huggingface.co/Finsafe-team
+- Team lead account: https://huggingface.co/KeshavDixit11
+- Selected GPU runtime: Kaggle.
+- Invite teammates using their HF usernames and grant write access separately.
+- Organization membership and token permission must be checked when authenticating;
+  providing the organization URL alone does not authenticate the runtime.

@@ -253,12 +253,29 @@ artifacts. Complete a model/data card in each folder, then for example:
 
 ```bash
 python scripts/publish_hf.py --folder artifacts/benchmark-release \
-  --repo YOUR_NAMESPACE/finsafe-benchmark --type dataset --public
+  --repo Finsafe-team/finsafe-benchmark --type dataset --public
 python scripts/publish_hf.py --folder artifacts/adapter-release \
-  --repo YOUR_NAMESPACE/finsafe-finance-adapter --type model --public
+  --repo Finsafe-team/finsafe-finance-adapter --type model --public
 ```
 
-Set namespace values yourself; the placeholders are not accounts. Create HF model
+The team namespace is `Finsafe-team`; the team lead account is `KeshavDixit11`. Create HF model
 and dataset collections in the HF interface and add all related public repos.
 Test links while signed out. A live Space is optional; a public reproducible repo
 and actual results are higher priority for the first submission.
+
+
+## Selected runtime: Kaggle
+
+Use [the Kaggle setup notebook](../notebooks/00_kaggle_setup.ipynb). Create a Kaggle
+notebook, import that file, enable Internet and select an available NVIDIA GPU.
+Add your Hugging Face access token as a Kaggle secret named `HF_TOKEN`, and enable
+that secret for this notebook. Never paste the token into code or output. The token
+must have model-read permission and, when publishing, write permission to
+`Finsafe-team`. Accept the Tiny Aya Global and Base conditions as `KeshavDixit11`.
+
+The setup notebook checks the GPU, Python and PyTorch before installation. Kaggle
+images and available accelerators change; do not assume two GPUs combine into one
+larger memory pool. Save the doctor output before choosing training settings.
+Installation/model downloads require Internet access. Kaggle sessions are temporary:
+export checkpoints and logs to HF or save notebook output before the session ends.
+The notebook does not train or publish automatically.

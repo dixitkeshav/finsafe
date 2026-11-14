@@ -16,7 +16,7 @@ Checked November 14, 2026.
 | GPU dependencies | 167 packages solver-resolved for Linux x86_64 / Python 3.12 |
 | Full GPU environment installation | Not run on this Mac |
 | Tiny Aya loading/training/repair | Not run; needs HF sign-in/model access and GPU runtime |
-| HF artifacts and collections | Not created; namespace/sign-in needed |
+| HF artifacts and collections | Namespace selected: Finsafe-team; artifact repos and runtime sign-in pending |
 | Actual safety/finance results | Not yet measured |
 | Hackathon submission | Not submitted |
 
