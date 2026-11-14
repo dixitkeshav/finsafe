@@ -20,6 +20,10 @@ documentation/source but must pass the GPU smoke test before a research run.
 2,500 train / 200 validation / 200 test numeric examples before token filtering.
 See [TAT-QA data notes](docs/TATQA.md). Model experiments remain pending.
 
+After notebook 01 succeeds, use `notebooks/02_kaggle_t4_baseline.ipynb` for
+the reported T4 runtime. It includes timed cell logs, resumable baseline generation
+and a recovery archive. See [recovery instructions](docs/RECOVERY.md).
+
 1. Read [the build guide](docs/START_HERE.md): accounts, setup and exact run sequence.
 2. Use [the initial-submission checklist](docs/SUBMISSION.md) before filling the form.
 3. Follow [the experiment protocol](docs/PROTOCOL.md) for data, metrics and judge labels.

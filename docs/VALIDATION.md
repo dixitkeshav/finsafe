@@ -9,7 +9,7 @@ Checked November 14, 2026.
 | CuratorKIT 0.1.15 | Ran cleaning, exact/MinHash dedup and accepted-row export |
 | Chat conversion and HF loader metadata | Produced from accepted curation output |
 | AuditKIT 1.1.11 | Evaluated recorded test-fixture outputs through the real API |
-| Scoring and leakage checks | Seven tests pass |
+| Scoring, leakage, logging and resume checks | Nine tests pass |
 | Changed-output replay | Verified no stale cached result is reused |
 | Annotation response binding | Verified changed-response hashes are rejected |
 | All Python source files | Parsed/compiled successfully |
@@ -42,3 +42,16 @@ Implemented and locally exercised the pinned TAT-QA preparation: 2,500 training,
 Numeric-scale scoring and source-table grouping tests pass. New Kaggle notebook
 01_kaggle_tatqa.ipynb code cells compile; Kaggle execution is still pending.
 No model weights were loaded and no model accuracy or safety results were measured.
+
+## Kaggle status supplied by user
+
+Notebook 01 executed successfully on the reported Kaggle session: HF identity and
+both model config accesses verified, seven then-current tests passed, and TAT-QA
+prepared 2,500/200/200 examples. Host: Python 3.13.16, torch 2.11.0+cu130,
+CUDA driver 580.178.04, two Tesla T4s. The core environment is Python 3.12.3.
+
+Stage 02 adds per-cell logs, a matched GPU dependency constraint set, token filtering,
+real curation and resumable 4-bit baseline generation. Constraints solver-resolve;
+notebook code cells compile. Generation resume/changed-contract and failed-stage
+logging/redaction are locally tested. Training full-state recovery and optional
+private HF backup are implemented but require actual GPU verification.

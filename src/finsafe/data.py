@@ -3,6 +3,7 @@ import hashlib
 import json
 import random
 import re
+import os
 from collections import defaultdict
 from pathlib import Path
 
@@ -20,7 +21,9 @@ def read_jsonl(path):
 def write_jsonl(path, rows):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
+    os.replace(temporary, path)
 
 
 def canonical(text):

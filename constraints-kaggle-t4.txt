@@ -1,0 +1,4 @@
+# Matches the user-reported Kaggle torch/CUDA family, in project Python 3.12.
+torch==2.11.0
+torchvision==0.26.0
+torchao==0.17.0
