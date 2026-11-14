@@ -6,10 +6,10 @@ and final organizer-form submission do not automatically continue through laptop
 sleep. A finished Kaggle job is not a submitted hackathon entry.
 
 Enable Internet, a T4 GPU and both secrets on this exact notebook:
-`HF_TOKEN` (gated model read access) and `HF_WRITE_TOKEN` (Finsafe-team writes).
+`HF_TOKEN` (gated model read access) and `HF_WRITE` (Finsafe-team writes; HF_WRITE_TOKEN alias also accepted).
 Never paste either into code. A versioned preflight on November 15 failed because
-Kaggle could not find HF_WRITE_TOKEN for kernel 144975746; adding a secret to a
-different account/notebook is insufficient. Verify with the preflight before launch.
+the configured write secret was named HF_WRITE rather than HF_WRITE_TOKEN.
+The notebook accepts either label and never displays values. Verify with the preflight before launch.
 
 The pipeline pins its source commit, restores the verified Version-5 data archive,
 installs Python 3.12 and GPU dependencies, performs a real SafeTune GPU preflight,
