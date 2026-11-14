@@ -86,6 +86,14 @@ with progress.stage('model-and-data-setup'):
         load_best_model_at_end=False, report_to='none', loggers=[], save_steps=a.save_steps,
         logging_steps=1, compute_rouge=False, compute_bleu=False)
     wrapper.setup_model()
+    if a.load_in_4bit and not getattr(wrapper.model, 'is_loaded_in_4bit', False):
+        raise RuntimeError('4-bit loading was requested but the model is not marked as 4-bit; refusing an unintended memory-heavy run')
+    trainable = sum(v.numel() for v in wrapper.model.parameters() if v.requires_grad)
+    total = sum(v.numel() for v in wrapper.model.parameters())
+    if trainable == 0:
+        raise RuntimeError('No trainable adapter parameters found')
+    progress.log(f'Trainable parameters: {trainable:,} / {total:,}; loaded_4bit={getattr(wrapper.model,"is_loaded_in_4bit",False)}')
+    wrapper.model.config.use_cache = False
     wrapper.setup_data()
     dataset = wrapper.train_dataset
     dataset = dataset.select_columns([name for name in ['messages','chat_template_kwargs','prompt','completion'] if name in dataset.column_names])
