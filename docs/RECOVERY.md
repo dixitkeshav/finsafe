@@ -109,3 +109,14 @@ The cap diagnostic deterministically selects up to two capped IDs per kind and
 repeats them at 768 tokens. Its selected subset must not be presented as a new ASR
 estimate. Compare the paired full answers and cap flags before deciding whether to
 increase the generation allowance for all matched model conditions.
+
+### Verify that a saved job actually executes
+
+During the recovery attempt, API-created Version 4 appeared as a Script and stayed
+queued without logs. After explicit user approval, it was cancelled with zero
+outputs. The editor's Save & Run All created Version 5 as a Notebook; execution
+logs then confirmed cloning, HF access, dataset preparation, dependency setup and
+finance generation. This establishes that the editor retry executed; it does not
+prove the cause of the earlier queue delay. Use the editor for subsequent notebook
+runs and verify both Notebook format and actual execution logs. An API success
+response or a saved version number alone is not execution evidence.
