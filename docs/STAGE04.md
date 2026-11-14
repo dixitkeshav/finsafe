@@ -80,3 +80,18 @@ The review packet is
 A local download is not verified; download before resetting Kaggle. The notebook
 was Quick Saved as Version 3. Quick Save alone does not establish durable storage
 for the working-directory artifacts.
+
+## Condition-hidden review once both response sets exist
+
+Use `scripts/blind_review.py create --data <safety-validation.jsonl> --predictions
+<baseline-predictions.jsonl> <sft-predictions.jsonl> --out <fresh-review-folder>`.
+Give teammates only `review.jsonl`; keep `coordinator-only-mapping.json` separate
+until annotation. The packet shuffles conditions, replaces source IDs with opaque
+review IDs, and preserves response text and cap-hit flags. Output style may still
+suggest a condition; this reduces labeling bias but does not guarantee blinding.
+
+After all labels and reviewer identities are filled, run `scripts/blind_review.py
+restore --packet <review.jsonl> --mapping <coordinator-only-mapping.json> --out
+<fresh-annotation-folder>`. It rejects changed prompts/responses or incomplete
+labels and exports per-condition annotations. `index.json` maps each condition to
+its annotation filename for `summarize` and `audit-safety-replay`.
