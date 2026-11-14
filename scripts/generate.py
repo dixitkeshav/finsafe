@@ -64,6 +64,12 @@ with progress.stage("model-load"):
 if a.adapter:
     from peft import PeftModel
     model = PeftModel.from_pretrained(model, a.adapter)
+stop_config = {'tokenizer_eos_id': tokenizer.eos_token_id,
+               'generation_eos_id': model.generation_config.eos_token_id,
+               'model_eos_id': model.config.eos_token_id,
+               'special_tokens': dict(zip(tokenizer.all_special_tokens, tokenizer.all_special_ids))}
+atomic_json(a.out + '.stop.json', stop_config)
+progress.log(f'Stopping configuration (unchanged): tokenizer_eos={stop_config["tokenizer_eos_id"]}, generation_eos={stop_config["generation_eos_id"]}')
 model.eval()
 wrapper = contextlib.nullcontext()
 if a.steer_calibration:
@@ -91,12 +97,16 @@ with wrapper, torch.inference_mode():
         outputs = model.generate(**inputs, do_sample=False, max_new_tokens=a.max_new_tokens,
                                   pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id)
         generated = outputs[0, inputs["input_ids"].shape[1]:]
+        token_ids = generated.tolist()
+        first_turn_end = token_ids.index(tokenizer.eos_token_id) if tokenizer.eos_token_id in token_ids else None
         if torch.cuda.is_available():
             torch.cuda.synchronize()
         records.append({"id": row["id"], "condition": a.condition,
             "dataset_sha256": dataset_sha, "output": tokenizer.decode(generated, skip_special_tokens=True),
             "input_tokens": inputs["input_ids"].shape[1], "output_tokens": len(generated),
             "max_new_tokens": a.max_new_tokens,
+            "last_token_id": token_ids[-1] if token_ids else None,
+            "first_tokenizer_eos_position": first_turn_end,
             "latency_seconds": time.monotonic() - begin})
         # Preserve progress if a long job is interrupted. An incomplete file fails report validation.
         write_jsonl(a.out, records)
