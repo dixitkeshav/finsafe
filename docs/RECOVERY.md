@@ -85,3 +85,27 @@ Unsloth is not required for this recipe.
 
 Reference: https://pytorch.org/get-started/previous-versions/ and
 https://github.com/pytorch/ao/issues/2919 for the matched torch/torchao families.
+
+
+## Versioned rebuild after lost interactive files
+
+The original interactive runtime was observed to have no project, GPU environment,
+validation responses or smoke adapter after session loss on November 14. Only the
+Stage-02 ZIP was found downloaded locally. Earlier Stage-03/04 observations remain
+historical measurements, but their raw responses/adapters require regeneration or
+a separately retained backup before further comparisons. Quick Save did not retain
+those working-directory files.
+
+`notebooks/00_kaggle_versioned_rebuild.ipynb` rebuilds the pinned data/model workflow,
+recreates the finance validation baseline and five-step checkpoint, then runs the
+safety baseline and `04b_kaggle_output_budget.ipynb`. Run it with Save & Run All,
+GPU T4 and the existing HF_TOKEN secret. It does not start 100-step training.
+The final successful stage removes only reproducible dependency environments and
+caches to keep retained Kaggle outputs compact; prepared data, logs, review packets,
+trained adapters, full-state checkpoints and verified archives remain. Reinstall
+GPU dependencies when resuming from retained outputs in a new session.
+
+The cap diagnostic deterministically selects up to two capped IDs per kind and
+repeats them at 768 tokens. Its selected subset must not be presented as a new ASR
+estimate. Compare the paired full answers and cap flags before deciding whether to
+increase the generation allowance for all matched model conditions.
