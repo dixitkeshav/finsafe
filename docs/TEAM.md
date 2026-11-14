@@ -48,3 +48,12 @@ Avoid changing the final test set after comparing model performance on it.
 - Invite teammates using their HF usernames and grant write access separately.
 - Organization membership and token permission must be checked when authenticating;
   providing the organization URL alone does not authenticate the runtime.
+
+## Registered submission identity
+
+Team **SAK_GURU** is registered (confirmed by team lead). Hugging Face handles:
+KeshavDixit11, Aryangupta1222, Shauryasharmaiitb. The registered email is kept
+out of public artifacts and is supplied only to the organizer form.
+
+The team authorized assistant review with disclosed limitations. No independent
+human safety review or teammate-specific contribution is claimed without evidence.

@@ -108,7 +108,7 @@ class CheckpointLog(TrainerCallback):
         progress.log(f'CHECKPOINT saved: {folder}')
         if a.backup_repo:
             try:
-                api=HfApi()
+                api=HfApi(token=os.environ.get("HF_WRITE_TOKEN") or None)
                 api.create_repo(a.backup_repo,repo_type='dataset',private=True,exist_ok=True)
                 info=api.repo_info(a.backup_repo,repo_type='dataset')
                 if not info.private:

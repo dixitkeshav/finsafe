@@ -19,6 +19,7 @@ p.add_argument("--condition", required=True)
 p.add_argument("--out", required=True)
 p.add_argument("--max-new-tokens", type=int, default=256)
 p.add_argument("--steer-calibration", help="Separate calibration JSONL, never validation/test")
+p.add_argument("--steering-artifact", help="Frozen SafeTune direction directory")
 p.add_argument("--alpha", type=float, default=0.1)
 p.add_argument("--load-in-4bit", action="store_true")
 p.add_argument("--resume", action="store_true")
@@ -41,7 +42,9 @@ contract.update(dataset_sha256=dataset_sha, seed=42, do_sample=False,
                 versions={k: importlib.metadata.version(k) for k in ("torch", "transformers")})
 if a.load_in_4bit:
     contract["versions"]["bitsandbytes"] = importlib.metadata.version("bitsandbytes")
-if a.steer_calibration:
+if a.steering_artifact:
+    contract["steering_artifacts"] = artifact_digest(a.steering_artifact)
+if a.steer_calibration or a.steering_artifact:
     contract["versions"]["safetune"] = importlib.metadata.version("safetune")
 records = generation_records(a.out, contract, rows, a.resume)
 progress.log(f"Saved progress: {len(records)}/{len(rows)} responses")
@@ -85,6 +88,12 @@ if a.steer_calibration:
         p.error("Calibration requires harmful_direct and benign_sensitive prompts")
     wrapper, _ = RefusalDirectionTrainer(model, tokenizer, alpha=a.alpha).calibrate(
         harmful=harmful, harmless=harmless)
+
+if a.steering_artifact:
+    if a.steer_calibration:
+        p.error("Choose a frozen artifact or live calibration")
+    from finsafe.steering import load_steering
+    wrapper = load_steering(model, a.steering_artifact, a.model, a.revision, a.adapter, a.alpha)
 
 started = time.monotonic()
 previous_count = len(records)
