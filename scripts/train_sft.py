@@ -126,6 +126,16 @@ with progress.stage('training'):
     # model/data/config and explicitly invoke the underlying TRL trainer instead.
     trainer=SFTTrainer(model=wrapper.model,args=config,train_dataset=dataset,
         processing_class=wrapper.tokenizer,peft_config=None,callbacks=[CheckpointLog()])
+    # AlignTune/TRL may recast LoRA weights to BF16 during setup. AMP's FP16
+    # scaler requires full-precision trainable weights; keep frozen NF4 intact.
+    dtype_counts = {}
+    for parameter in trainer.model.parameters():
+        if parameter.requires_grad:
+            if parameter.dtype != torch.float32:
+                parameter.data = parameter.data.float()
+            name = str(parameter.dtype)
+            dtype_counts[name] = dtype_counts.get(name, 0) + parameter.numel()
+    progress.log(f'Trainable parameter dtypes before optimizer creation: {dtype_counts}')
     result=trainer.train(resume_from_checkpoint=checkpoint)
     trainer.save_model(a.out)
     wrapper.tokenizer.save_pretrained(a.out)
