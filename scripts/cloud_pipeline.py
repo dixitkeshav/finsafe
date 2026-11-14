@@ -1,5 +1,5 @@
 """Unattended versioned Kaggle experiment. No credentials are written to disk."""
-import json,os,sys,time,shutil,subprocess,zipfile
+import json,os,sys,time,shutil,subprocess,zipfile,importlib.metadata
 from pathlib import Path
 from finsafe.progress import Progress,atomic_json
 from finsafe.data import read_jsonl,write_jsonl,validate
@@ -34,7 +34,7 @@ try:
     with progress.stage('01-validate-inputs-and-runtime'):
         subprocess.run(['nvidia-smi'],check=True)
         progress.run([CLI,'doctor','--gpu'],cwd=ROOT)
-        freeze=subprocess.check_output([PYTHON,'-m','pip','freeze'],text=True)
+        freeze='\n'.join(sorted(f"{d.metadata['Name']}=={d.version}" for d in importlib.metadata.distributions()))+'\n'
         (RUN/'environment.txt').write_text(freeze)
         train=ROOT/'data/processed/tatqa-tokenized/curated'
         if sha256_file(train/'sft_messages.jsonl')!='207956f3c3e82a9a2ad55a3fef292be55cd64f856f13635218f85ba571dff75d':raise ValueError('Curated training hash differs from verified run')
@@ -113,6 +113,8 @@ try:
         command('scripts/publish_submission.py','--run',RUN)
     atomic_json(RUN/'completed.json',{'status':'complete' if judge_ok else 'partial-safety-labels-pending','seconds':time.monotonic()-started,'judge_passed':judge_ok})
     backup('published')
+    for name in ['completed.json','compute.json','public-links.json']:
+        api.upload_file(path_or_fileobj=str(RUN/name),path_in_repo=name,repo_id='Finsafe-team/finsafe-runs',repo_type='dataset')
     progress.log('PIPELINE FINISHED. Inspect public links and submit the organizer form. Form submission is not automated by this GPU job.')
 except BaseException as error:
     atomic_json(RUN/'failed.json',{'error_type':type(error).__name__,'seconds':time.monotonic()-started})
