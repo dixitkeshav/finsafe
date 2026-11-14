@@ -139,3 +139,14 @@ artifacts; do not offer them as an unrestricted production assistant.
 Starter code and documentation were prepared with AI assistance during the
 hackathon. Contributors must review generated code and disclose actual AI use
 and any outside-hackathon work in the final write-up.
+
+### After the verified training smoke test
+
+- [Notebook 04](notebooks/04_kaggle_safety_baseline.ipynb): freeze the safety pilot,
+  diagnose finance formatting, collect original-model safety responses and export
+  review packets with timed logs and verified recovery backup.
+- [Notebook 05](notebooks/05_kaggle_finance_sft.ipynb): fresh 100-step benign finance
+  SFT, full-state recovery and matched finance/safety validation generation.
+- [Stage 04 guide](docs/STAGE04.md): pilot limitations, response-label rubric and
+  real AuditKIT safety replay after annotation. Safety rates are not claimed for
+  unreviewed outputs.

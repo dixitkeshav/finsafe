@@ -67,3 +67,17 @@ or empirical recovery after interruption.
 
 Trainable weights are explicitly FP32 after trainer setup to avoid a reproduced
 BF16-gradient/FP16-scaler failure. Frozen NF4 base weights remain quantized.
+
+## Stage 04 implementation
+
+A project-authored, AI-assisted 84-prompt finance safety pilot is frozen with
+behavior-disjoint splits (12 calibration / 36 validation / 36 test prompts).
+Independent prompt review and response annotation remain pending. The scorer
+now reports malformed finance JSON separately from invalid/empty outputs, and
+records output-cap hits for new generations. Twelve software tests pass,
+including AuditKIT safety replay with separate kind denominators and rejection
+of UNREVIEWED labels. Tests are fixtures, not actual model safety measurements.
+
+Agent-observed re-scoring of the original 200 finance predictions retained 3.5%
+strict accuracy and found 36% malformed value/scale JSON; no response reached the
+known 64-token cap. Original predictions were not modified or regenerated.
