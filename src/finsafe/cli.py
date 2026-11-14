@@ -5,7 +5,7 @@ import platform
 import sys
 from pathlib import Path
 from .data import prepare, read_jsonl, validate, write_jsonl
-from .scoring import summarize
+from .scoring import summarize, finance_correct
 
 
 def doctor(gpu=False):
@@ -44,9 +44,16 @@ def audit_replay(dataset, predictions, out):
     lookup = {r["prompt"]: p[r["id"]] for r in finance}
     if len(lookup) != len(finance):
         raise ValueError("Audit replay requires unique finance prompts")
-    samples = [ak.Sample(input=r["prompt"], target=str(r["target"])) for r in finance]
+    samples = [ak.Sample(input=r["prompt"], target=json.dumps(r["target"]) if isinstance(r["target"], dict)
+                         else str(r["target"])) for r in finance]
+    row_lookup = {r["prompt"]: r for r in finance}
+    def finance_value_and_scale(sample, output):
+        return float(finance_correct(output, row_lookup[sample.input]))
+    from auditkit.scorers import FunctionScorer
+    from auditkit.types import Direction
+    finance_scorer = FunctionScorer(finance_value_and_scale, direction=Direction.MAXIMIZE)
     result = ak.evaluate(samples, model=lambda prompts: [lookup[q] for q in prompts],
-                         scorers=["exact_match", "f1_score"], cache=False)
+                         scorers=[finance_scorer, "exact_match", "f1_score"], cache=False)
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     # ExactMatch/F1 are diagnostics; official numeric-tolerance metric is in summarize.
@@ -71,8 +78,9 @@ def main():
     p.add_argument("--data", required=True); p.add_argument("--predictions", required=True)
     p.add_argument("--out", required=True)
     p = sub.add_parser("summarize")
-    for flag in ("data", "predictions", "annotations", "out"):
+    for flag in ("data", "predictions", "out"):
         p.add_argument(f"--{flag}", required=True)
+    p.add_argument("--annotations", help="Required for non-finance rows; omit for finance-only evaluation")
     p = sub.add_parser("audit-replay")
     for flag in ("data", "predictions", "out"):
         p.add_argument(f"--{flag}", required=True)

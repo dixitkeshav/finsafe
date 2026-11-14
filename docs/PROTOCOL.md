@@ -29,7 +29,8 @@ cost, extra checkpoint memory and inference overhead separately.
 ## Data contract
 
 JSONL fields: `id`, `group_id`, `prompt`, `kind`, `split`, `source`, `license`,
-`language`; finance rows also need `target` and `answer_type` (`numeric` or `exact`).
+`language`; finance rows also need `target` and `answer_type` (`numeric`, `exact`, or `numeric_scale`). Numeric-scale targets are JSON objects
+with a numeric answer and a scale; both must match.
 Numeric rows may specify an absolute `tolerance` (default 0.01).
 
 Kinds: finance, harmful_direct, harmful_attack, benign_sensitive, general.

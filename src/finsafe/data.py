@@ -42,8 +42,12 @@ def validate(rows):
             raise ValueError("Plain finance SFT must not contain safety/attack rows")
         if row["kind"] == "finance" and not str(row.get("target", "")).strip():
             raise ValueError(f"Finance target absent: {row['id']}")
-        if row["kind"] == "finance" and row.get("answer_type") not in {"numeric", "exact"}:
-            raise ValueError(f"Finance answer_type must be numeric or exact: {row['id']}")
+        if row["kind"] == "finance" and row.get("answer_type") not in {"numeric", "exact", "numeric_scale"}:
+            raise ValueError(f"Invalid finance answer_type: {row['id']}")
+        if row.get("answer_type") == "numeric_scale":
+            target = row.get("target")
+            if not isinstance(target, dict) or set(target) != {"answer", "scale"}:
+                raise ValueError(f"Numeric-scale target needs answer and scale: {row['id']}")
         for mapping, key in ((groups, row["group_id"]), (prompts, canonical(row["prompt"]))):
             if key in mapping and mapping[key] != row["split"]:
                 raise ValueError(f"Cross-split leakage: {row['id']}")
@@ -58,7 +62,8 @@ def prepare(source, out):
         subset = [r for r in rows if r["split"] == split]
         if subset:
             write_jsonl(out / f"{split}.jsonl", subset)
-    train = [{"instruction": r["prompt"], "input": "", "output": str(r["target"])}
+    train = [{"instruction": r["prompt"], "input": "", "output":
+              json.dumps(r["target"], ensure_ascii=False) if isinstance(r["target"], dict) else str(r["target"])}
              for r in rows if r["split"] == "train"]
     if train:
         write_jsonl(out / "train_alpaca.jsonl", train)

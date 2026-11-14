@@ -9,7 +9,7 @@ Checked November 14, 2026.
 | CuratorKIT 0.1.15 | Ran cleaning, exact/MinHash dedup and accepted-row export |
 | Chat conversion and HF loader metadata | Produced from accepted curation output |
 | AuditKIT 1.1.11 | Evaluated recorded test-fixture outputs through the real API |
-| Scoring and leakage checks | Five tests pass |
+| Scoring and leakage checks | Seven tests pass |
 | Changed-output replay | Verified no stale cached result is reused |
 | Annotation response binding | Verified changed-response hashes are rejected |
 | All Python source files | Parsed/compiled successfully |
@@ -34,3 +34,11 @@ Integration adjustments made during setup:
 - AuditKIT initializes a cache directory even when caching is disabled; its location
   defaults to the project's `.cache` when no XDG cache override is supplied.
 - Replay throughput is not model throughput and must not be used for cost claims.
+
+## TAT-QA integration
+
+Implemented and locally exercised the pinned TAT-QA preparation: 2,500 training,
+200 validation and 200 final-test numeric examples, before tokenizer filtering.
+Numeric-scale scoring and source-table grouping tests pass. New Kaggle notebook
+01_kaggle_tatqa.ipynb code cells compile; Kaggle execution is still pending.
+No model weights were loaded and no model accuracy or safety results were measured.

@@ -15,6 +15,11 @@ documentation/source but must pass the GPU smoke test before a research run.
 
 ## Start here
 
+**Current next step:** use [the Kaggle action guide](docs/KAGGLE_NOW.md) and
+`notebooks/01_kaggle_tatqa.ipynb`. Real TAT-QA data preparation is implemented:
+2,500 train / 200 validation / 200 test numeric examples before token filtering.
+See [TAT-QA data notes](docs/TATQA.md). Model experiments remain pending.
+
 1. Read [the build guide](docs/START_HERE.md): accounts, setup and exact run sequence.
 2. Use [the initial-submission checklist](docs/SUBMISSION.md) before filling the form.
 3. Follow [the experiment protocol](docs/PROTOCOL.md) for data, metrics and judge labels.
