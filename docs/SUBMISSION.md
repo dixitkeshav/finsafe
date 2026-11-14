@@ -79,3 +79,11 @@ be finalist work if shortlisted.
 Use templates/ARTICLE.md as a starting outline. It contains placeholders and is
 not a finished article. Replace every placeholder with measured evidence or an
 explicitly disclosed omission before publication. Do not submit fabricated values.
+
+## Article access observed on November 15
+
+After the lead signed in, https://huggingface.co/new-blog returned 403 with
+“You don’t have the required permissions to complete this action.” Use the
+organizer-approved GitHub README fallback and also host ARTICLE.md with the
+HF runs artifacts. A dataset Markdown file alone is not represented as a
+published HF community blog.

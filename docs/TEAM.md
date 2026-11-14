@@ -1,9 +1,9 @@
 # Team coordination
 
 Repository owner: [dixitkeshav](https://github.com/dixitkeshav).
-Invited collaborators: [AryanGupta1112](https://github.com/AryanGupta1112) and
-[ShauryaaSharma](https://github.com/ShauryaaSharma), both write access.
-Invitations are pending until accepted; this does not configure HF permissions.
+[AryanGupta1112](https://github.com/AryanGupta1112) has accepted repository access.
+[ShauryaaSharma](https://github.com/ShauryaaSharma) has a pending write-access
+invitation (verified November 15). This does not configure HF permissions.
 
 Suggested division of work (proposal, not an assignment agreed by teammates):
 
