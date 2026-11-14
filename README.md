@@ -3,25 +3,36 @@
 **Can benign finance adaptation erode Tiny Aya's safety, and can we recover it without erasing the finance gains?**
 
 FinSafe is a research project for the Lexsi AI Safety and Alignment Hackathon.
-Primary track: **2b**, problem statements **#6** (weight-space recovery) and,
-when evaluated, **#8** (inference-time steering). A later paired hardening
-experiment can address **#5**. Numbers follow the live page's continuous
-Track 2 numbering. We do not assume that safety drift will occur.
+Primary track: **2b**, problem statement **#8 (inference-time steering)**.
+The submission chains CuratorKIT → SafeTune → AuditKIT, with AlignTune finance
+SFT as the adaptation control. Weight-space recovery and train-time hardening
+remain extensions; no completed results for those methods are claimed.
+We test for safety drift rather than assuming it occurs.
 
-**Status: Kaggle T4 model loading and five-step QLoRA smoke test passed.**
-The original Tiny Aya finance validation score is 7/200 (3.5%) under strict
-answer-and-scale scoring; 36% of responses had malformed JSON. These are preliminary
-finance measurements. Safety labels, longer SFT, repair and submission artifacts
-remain incomplete. See [validation notes](docs/VALIDATION.md).
+**Status: the unattended versioned GPU experiment is running.**
+[Live Kaggle run, Version 12](https://www.kaggle.com/code/keshavdixit11/lexsilabs?scriptVersionId=369665762).
+A verified 222 MB portable recovery archive is backed up privately on HF.
+The original finance baseline is 7/200 (3.5%) with 36% malformed JSON;
+these are earlier preliminary finance measurements, not SFT/repair results.
+The current run compares matched aligned/SFT/steering conditions and will
+publish measured results. Completion and organizer submission are not yet claimed.
 
 ## Start here
 
-**Current next step:** [Notebook 05](notebooks/05_kaggle_finance_sft.ipynb)
-now restores retained Version-5 output, reinstalls missing GPU dependencies,
-collects a NEW 768-token safety baseline, and runs fresh 100-step finance SFT
-with matched safety validation. It is prepared but has not run. The prior
-256-token safety baseline and five-example output-budget diagnostic completed;
-actual safety labels remain unreviewed. See [current Kaggle instructions](docs/KAGGLE_NOW.md).
+Use [Notebook 06](notebooks/06_kaggle_submission_pipeline.ipynb) and
+[the unattended run guide](docs/UNATTENDED_RUN.md). Save & Run All executes on
+Kaggle servers during laptop sleep; Codex and the final organizer form may pause.
+Source is pinned. Enable HF_TOKEN plus HF_WRITE (HF_WRITE_TOKEN also accepted).
+Each phase logs UTC timing; training saves full-state checkpoints every ten
+steps, and each generated response is saved atomically.
+
+The run trains a fresh 100-step QLoRA adapter, measures the aligned model and
+finance adapter, then applies SafeTune layer-18 refusal directions at fixed
+strengths 5 and 20. Conditions share 200 finance and 36 safety validation prompts;
+reserved test data remains untouched. A frozen, condition-blind Tiny Aya judge
+supplies preliminary safety labels only if its assistant-reviewed sanity gate
+passes. **No independent human safety review is claimed.** See
+[validation notes](docs/VALIDATION.md) and the final report for limitations.
 
 Real TAT-QA preparation and complete-chat token filtering accepted 2,500 train /
 200 validation / 200 test examples in the verified session; CuratorKIT retained
@@ -62,7 +73,7 @@ flowchart LR
     M[Aligned Tiny Aya Global] --> C
     M --> E[Baseline generation]
     C --> F[Finance checkpoint generation]
-    C --> R[SafeTune: ReSta or live steering]
+    C --> R[SafeTune: frozen refusal-direction steering]
     R --> G[Repaired generation]
     E --> H[AuditKIT finance metrics and reviewed safety labels]
     F --> H

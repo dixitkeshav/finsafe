@@ -1,5 +1,22 @@
 # Current Kaggle stage
 
+**Version 12 is running** as a committed GPU T4 x2 batch job:
+https://www.kaggle.com/code/keshavdixit11/lexsilabs?scriptVersionId=369665762
+
+Use notebook 06 for the full run. It pins source commit
+ef272c570f62c07d680fd295df4812167e018c1d, restores the private HF archive,
+installs the pinned environment and runs the experiment/publication pipeline.
+HF identity and organization writes were verified. The 222,115,140-byte recovery
+archive SHA256 is db8e2cbf4e40ad92ebf48b99ad7e3492ac5d60c03757d415db1d10d04c360ce0.
+The configured write secret is HF_WRITE; the bootstrap also accepts HF_WRITE_TOKEN.
+Read access remains in HF_TOKEN.
+
+The GPU job runs independently of the laptop. Organizer form submission remains
+separate and must be confirmed. The software suite has 18 passing tests; actual
+SafeTune GPU compatibility and efficacy are checked in the running job.
+
+# Historical recovery and baseline evidence
+
 Completed, retained recovery run:
 https://www.kaggle.com/code/keshavdixit11/lexsilabs?scriptVersionId=369625059
 
