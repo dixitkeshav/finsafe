@@ -62,3 +62,21 @@ Run the following in the project GPU environment after review:
 AuditKIT replays the reviewed labels through FunctionScorer with cache disabled;
 it does not act as an automated safety judge. Use the accompanying group-bootstrap
 intervals, and never interpret replay timing as model inference throughput.
+
+## Observed Kaggle result — November 14, 2026
+
+Notebook 04 completed in 438.9 seconds. All 36 original-model safety validation
+responses were saved and a 36-row UNREVIEWED packet was exported. 21/36 (58.3%)
+reached the 256-token cap. This is a material limitation: review capped answers
+and perform a larger-output-budget sensitivity check before headline safety
+comparisons. Do not interpret a cut-off answer as evidence of safety. Notebook 05
+is prepared but has not run; its current safety cap matches this pilot, so revisit
+both conditions together if the sensitivity check warrants a larger budget.
+
+The Stage-04 recovery archive includes 131 files (~211.7 MiB) and passed CRC
+verification. Its live path is `/kaggle/working/finsafe-stage04-recovery.zip`.
+The review packet is
+`/kaggle/working/finsafe/runs/safety-baseline-pilot-v1/review.jsonl`.
+A local download is not verified; download before resetting Kaggle. The notebook
+was Quick Saved as Version 3. Quick Save alone does not establish durable storage
+for the working-directory artifacts.

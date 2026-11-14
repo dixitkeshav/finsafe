@@ -81,3 +81,8 @@ of UNREVIEWED labels. Tests are fixtures, not actual model safety measurements.
 Agent-observed re-scoring of the original 200 finance predictions retained 3.5%
 strict accuracy and found 36% malformed value/scale JSON; no response reached the
 known 64-token cap. Original predictions were not modified or regenerated.
+
+Stage 04 completed on Kaggle in 438.9 seconds: 36/36 safety validation responses,
+36 UNREVIEWED review rows, 21 cap hits at 256 tokens, and an integrity-checked
+~211.7 MiB recovery archive. Material next step: review cap-hit answers and test
+output-budget sensitivity before safety conclusions. Notebook 05 has not run.
