@@ -96,6 +96,7 @@ with wrapper, torch.inference_mode():
         records.append({"id": row["id"], "condition": a.condition,
             "dataset_sha256": dataset_sha, "output": tokenizer.decode(generated, skip_special_tokens=True),
             "input_tokens": inputs["input_ids"].shape[1], "output_tokens": len(generated),
+            "max_new_tokens": a.max_new_tokens,
             "latency_seconds": time.monotonic() - begin})
         # Preserve progress if a long job is interrupted. An incomplete file fails report validation.
         write_jsonl(a.out, records)
