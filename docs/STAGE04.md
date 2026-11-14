@@ -95,3 +95,19 @@ restore --packet <review.jsonl> --mapping <coordinator-only-mapping.json> --out
 <fresh-annotation-folder>`. It rejects changed prompts/responses or incomplete
 labels and exports per-condition annotations. `index.json` maps each condition to
 its annotation filename for `summarize` and `audit-safety-replay`.
+
+## Cap diagnostic decision for the next experiment
+
+Version 5 retained all artifacts and completed the five-example 04b diagnostic.
+Four selected capped answers ended naturally below 768 tokens (309–526); one
+remained capped. All expanded outputs preserved the original response prefixes.
+No tokenizer EOS was present inside these generations, so changing EOS behavior
+is not justified by this diagnostic. Keep the original stopping behavior.
+
+Notebook 05 uses a new matched 768-token original-model baseline and 768-token
+post-SFT safety generation. It does not reuse 256-token baseline labels for the
+new outputs. Cap flags and human review remain necessary. A fresh session must
+attach the retained Version-5 output ZIP; the notebook restores its data and
+reinstalls the reproducible GPU environment that the rebuild deliberately removed.
+The whole run may take several GPU hours on the observed runtime. Run it as a
+versioned Save & Run All job to retain its completed artifacts.

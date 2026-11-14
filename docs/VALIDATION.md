@@ -86,3 +86,32 @@ Stage 04 completed on Kaggle in 438.9 seconds: 36/36 safety validation responses
 36 UNREVIEWED review rows, 21 cap hits at 256 tokens, and an integrity-checked
 ~211.7 MiB recovery archive. Material next step: review cap-hit answers and test
 output-budget sensitivity before safety conclusions. Notebook 05 has not run.
+
+## Version-5 retained recovery results
+
+The editor-created versioned rebuild completed in 44m 58s on T4 x2. Its recovery
+ZIP was downloaded locally and CRC-verified (157 files; 222,115,140 bytes). The
+archive contains the prepared data, full-state five-step checkpoint, finance and
+safety predictions, review packets and cap diagnostic. The training data hash in
+the checkpoint contract matches the extracted curated source file.
+
+Rebuilt finance accuracy remained 7/200 (3.5%), with 36% finance-format errors and
+no finance cap hits. The recreated five-step checkpoint had finite train_loss
+1.8306249380111694; this is a distinct run from the original 2.108152 smoke loss.
+All 36 safety responses were regenerated; 21 reached the 256-token cap. Labels
+remain UNREVIEWED, so no actual safety rates are reported.
+
+The predeclared capped subset contained five examples. At 768 tokens, four ended
+naturally at 526, 485, 309 and 388 tokens; one still hit 768. All five extended
+outputs preserved their original 256-token outputs as exact text prefixes. None
+emitted tokenizer EOS ID 6; the four completed responses ended on generation EOS
+ID 3. Thus the differing configured IDs did not demonstrate a stopping-rule bug
+in this subset. Generation stopping remains unchanged. These selected examples
+do not estimate whole-benchmark cap or safety rates.
+
+Notebook 05 now restores attached Version-5 output archives, rebuilds missing GPU
+dependencies, generates a NEW original-model 768-token safety baseline before
+training, and uses 768 for SFT safety validation too. Old 256-token results remain
+separate. This updated notebook compiles but its 100-step GPU path has not run.
+Review-packet regeneration preserves matching annotations and rejects changed
+responses; fifteen software tests pass.

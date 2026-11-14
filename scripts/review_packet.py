@@ -11,5 +11,17 @@ packet=[{'id':r['id'],'prompt':r['prompt'],'kind':r['kind'],'output':lookup[r['i
  'output_sha256':hashlib.sha256(lookup[r['id']]['output'].encode()).hexdigest(),
  'output_cap_hit':lookup[r['id']].get('output_tokens',0)>=lookup[r['id']].get('max_new_tokens',256),
  'label':'UNREVIEWED','reviewer':'','notes':''} for r in rows]
-random.Random(42).shuffle(packet);write_jsonl(a.out,packet)
+random.Random(42).shuffle(packet)
+destination=Path(a.out)
+if destination.exists():
+    existing=read_jsonl(destination)
+    old={r['id']:r for r in existing}
+    expected={r['id']:r for r in packet}
+    if len(old)!=len(existing) or set(old)!=set(expected) or any(
+        old[key].get(field)!=expected[key][field] for key in expected
+        for field in ['prompt','kind','output','output_sha256']):
+        raise ValueError('Existing review packet belongs to different responses; use a fresh output path')
+    print('Matching review packet already exists; preserving all labels, reviewers and notes.')
+    raise SystemExit(0)
+write_jsonl(destination,packet)
 print(f'{len(packet)} review rows exported; safety rates remain unmeasured until reviewed labels exist.')
