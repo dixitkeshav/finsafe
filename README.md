@@ -8,21 +8,23 @@ when evaluated, **#8** (inference-time steering). A later paired hardening
 experiment can address **#5**. Numbers follow the live page's continuous
 Track 2 numbering. We do not assume that safety drift will occur.
 
-**Status: working local starter; GPU experiments and submission artifacts are pending.**
-There are no measured Tiny Aya results yet. Included sample data and test fixtures
-are illustrative, not submission evidence. GPU scripts are wired against official
-documentation/source but must pass the GPU smoke test before a research run.
+**Status: Kaggle T4 model loading and five-step QLoRA smoke test passed.**
+The original Tiny Aya finance validation score is 7/200 (3.5%) under strict
+answer-and-scale scoring; 36% of responses had malformed JSON. These are preliminary
+finance measurements. Safety labels, longer SFT, repair and submission artifacts
+remain incomplete. See [validation notes](docs/VALIDATION.md).
 
 ## Start here
 
-**Current next step:** use [the Kaggle action guide](docs/KAGGLE_NOW.md) and
-`notebooks/01_kaggle_tatqa.ipynb`. Real TAT-QA data preparation is implemented:
-2,500 train / 200 validation / 200 test numeric examples before token filtering.
-See [TAT-QA data notes](docs/TATQA.md). Model experiments remain pending.
+**Current next step:** [Notebook 04](notebooks/04_kaggle_safety_baseline.ipynb)
+collects a frozen finance safety pilot baseline and exports review packets.
+[Notebook 05](notebooks/05_kaggle_finance_sft.ipynb) is prepared for a fresh
+100-step finance SFT with matching validation generation; it has not yet run.
+Use [the Kaggle action guide](docs/KAGGLE_NOW.md) for the current stage.
 
-After notebook 01 succeeds, use `notebooks/02_kaggle_t4_baseline.ipynb` for
-the reported T4 runtime. It includes timed cell logs, resumable baseline generation
-and a recovery archive. See [recovery instructions](docs/RECOVERY.md).
+Real TAT-QA preparation and complete-chat token filtering accepted 2,500 train /
+200 validation / 200 test examples in the verified session; CuratorKIT retained
+954 training examples. See [data notes](docs/TATQA.md) and [recovery instructions](docs/RECOVERY.md).
 
 1. Read [the build guide](docs/START_HERE.md): accounts, setup and exact run sequence.
 2. Use [the initial-submission checklist](docs/SUBMISSION.md) before filling the form.
@@ -111,11 +113,11 @@ are additional diagnostics; the numeric-tolerance metric is implemented here.
 
 ## Results
 
-Pending real GPU runs. Do not replace pending values with estimates.
+Preliminary validation only; test sets remain reserved. Do not replace pending values with estimates.
 
 | Condition | Finance accuracy | Harmful compliance | Attack success | Over-refusal | Invalids |
 |---|---|---|---|---|---|
-| Original aligned Tiny Aya | Pending | Pending | Pending | Pending | Pending |
+| Original aligned Tiny Aya | 3.5% (7/200 validation) | Unreviewed | Unreviewed | Unreviewed | 0% empty; 36% format errors |
 | Finance SFT | Pending | Pending | Pending | Pending | Pending |
 | Finance SFT + selected repair | Pending | Pending | Pending | Pending | Pending |
 
