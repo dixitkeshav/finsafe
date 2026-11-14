@@ -15,9 +15,9 @@ Checked November 14, 2026.
 | All Python source files | Parsed/compiled successfully |
 | GPU dependencies | 167 packages solver-resolved for Linux x86_64 / Python 3.12 |
 | Full GPU environment installation | Not run on this Mac |
-| Tiny Aya loading/training/repair | Not run; needs HF sign-in/model access and GPU runtime |
+| Tiny Aya loading/training/repair | 4-bit loading and five-step QLoRA passed on Kaggle T4; repair not run |
 | HF artifacts and collections | Namespace selected: Finsafe-team; artifact repos and runtime sign-in pending |
-| Actual safety/finance results | Not yet measured |
+| Actual safety/finance results | Finance validation baseline 7/200; eight-example adapter smoke 1/8; safety not measured |
 | Hackathon submission | Not submitted |
 
 Unit-test fixtures are synthetic software checks, not model experiment results.
@@ -55,3 +55,15 @@ real curation and resumable 4-bit baseline generation. Constraints solver-resolv
 notebook code cells compile. Generation resume/changed-contract and failed-stage
 logging/redaction are locally tested. Training full-state recovery and optional
 private HF backup are implemented but require actual GPU verification.
+
+## Agent-observed Kaggle Stage 03
+
+November 14: full 200-question baseline completed through generation and AuditKIT
+replay. Strict value-and-scale accuracy was 0.035. The corrected QLoRA smoke run
+completed all five steps with train_loss 2.1081520557403564; checkpoint-5 included
+adapter, optimizer, scheduler, RNG and trainer state. Adapter loading and eight
+generations passed. These checks do not establish safety drift, repair efficacy,
+or empirical recovery after interruption.
+
+Trainable weights are explicitly FP32 after trainer setup to avoid a reproduced
+BF16-gradient/FP16-scaler failure. Frozen NF4 base weights remain quantized.

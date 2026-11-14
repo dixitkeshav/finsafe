@@ -21,8 +21,20 @@ The sequence is:
 5. Generate the same eight smoke examples with the adapter and inspect outputs.
 6. Create a downloadable recovery ZIP including checkpoints, data and logs.
 
-The GPU training path is implemented but not yet executed on Kaggle. If a cell
-fails, send the final error and preceding setup logs. Keep the session/files;
+The GPU training path completed on Kaggle on November 14, 2026: five optimizer
+steps, finite mean train loss 2.108152, 3,833,856 trainable LoRA parameters, and
+46.4 seconds of optimizer-loop runtime. Full-state checkpoint-5 passed file
+checks, and the saved adapter generated all eight smoke responses (1/8 correct,
+unchanged from the original eight-example baseline). The full original-model
+validation score was 7/200 (3.5%), with a source-table bootstrap interval of
+about 1.0–6.5%. These are finance-only measurements.
+
+The first training attempt failed before step 1 because trainable BF16 weights
+reached the FP16 gradient scaler. The runner now explicitly promotes trainable
+parameters to FP32 after SFTTrainer setup, preserving frozen quantized weights.
+The corrected run succeeded.
+
+If a cell fails, retain its error and preceding setup logs. Keep the session/files;
 rerun identical commands with --resume (already used by the notebook). Training
 resumes from the latest complete local checkpoint. Missing checkpoints mean a
 logged restart from zero. Restoring a deleted session requires your backup.
@@ -38,3 +50,11 @@ The current finance-only baseline has no ASR/over-refusal measurements.
 
 Checkpoint file checks confirm the expected recovery files exist, not that an
 interrupted-resume cycle has been empirically verified. Record that distinction.
+
+The Stage 03 archive was rebuilt with ZIP_STORED, per-25-file progress and CRC
+verification after compressed archive creation stalled. The verified archive
+contains 112 files (211.6 MiB) and is available in the live Kaggle session as
+`/kaggle/working/finsafe-stage03-recovery.zip`. A local download was not verified.
+Kaggle notebook Version 2 was quick-saved; this alone does not prove that all
+working-directory artifacts have durable storage. Download the ZIP before ending
+the session.
