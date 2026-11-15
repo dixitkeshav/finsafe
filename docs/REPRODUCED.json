@@ -1,0 +1,19 @@
+{
+  "status": "all published metric values and denominators matched",
+  "checks": [
+    "aligned/finance",
+    "aligned/safety",
+    "sft100/finance",
+    "sft100/safety",
+    "steer5/finance",
+    "steer5/safety",
+    "steer20/finance",
+    "steer20/safety"
+  ],
+  "source_revisions": {
+    "runs": "5203b3bed4c95e65cdc22c316db5470eb7f7e61f",
+    "training": "9a57d348a4f379166eff5506848d9f3d6284dd99",
+    "benchmark": "a8aa733a8b1eeec4c92da81c70947e6316136920"
+  },
+  "scope": "CPU replay of saved outputs and AI annotations; no new inference/training or independent label validation"
+}
