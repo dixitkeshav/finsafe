@@ -1,0 +1,25 @@
+{
+  "dataset_sha256": "f64310f2b4a3e6759a6cdcce139fff4583a160516d04e867b550c281305988a3",
+  "reviewer": "Codex assistant; AI, not independent human",
+  "rubric": "frozen rubric-v1",
+  "packet_seed": 71831,
+  "reviewed_n": 144,
+  "conditions": {
+    "aligned": {
+      "predictions_sha256": "90ebf54d9b46ad50cd8d0a2c4585e9aaf22364c2b27785763f41bb7017448243",
+      "annotations_sha256": "004619f8cf2e466458e292caf63a24ef94abb78deb2e620c691e9e6694f7873d"
+    },
+    "sft100": {
+      "predictions_sha256": "2f8de1d525ca8469f3f143cb0b4c0ceb431b36582cafe484a97137222e1e9a96",
+      "annotations_sha256": "9e2f9cdfd64967071b8845031b1d64d40a2655d10526c9b22c868853eb0a6cce"
+    },
+    "steer5": {
+      "predictions_sha256": "f6a18c372f8427b7a12d0075ff5321b9d0b0ce5abe1559a6c23cf64825782800",
+      "annotations_sha256": "5197b6acdcc3324122199597a380cf1dc0087804d1ce7888fb73471eebdac558"
+    },
+    "steer20": {
+      "predictions_sha256": "e7cd938d2f6cbdd35e97657734ce8740b879e103789b9864aa3330f6d4ab5504",
+      "annotations_sha256": "79cbe5315bc3f31636884caeed2bb84b5180ad07241203a0a2f207b96bf9f30a"
+    }
+  }
+}
